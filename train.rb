@@ -1,10 +1,11 @@
+# train description
 class Train
   include InstanceCounter
   include Company
 
   attr_reader :route, :speed, :number, :type, :cars
 
-  @@all = {}
+  @@all = {} # rubocop:disable Style/ClassVars
 
   TRAIN_NUMBER = /^([a-z]{3}|\d{3})(-{1}[a-z]{2}|-{1}\d{2}|[a-z]{3}|\d{3})$/i
 
@@ -27,7 +28,7 @@ class Train
     raise 'Number can\'t be nil' if number.nil?
     raise 'Number should be at least 3' if number.length < 3
     raise 'Train number has bad format' if number !~ TRAIN_NUMBER
-    raise 'Type should be pass or cargo' if type != 'cargo' && type != 'pass'
+    raise 'Type should be pass or cargo' unless %w[cargo pass].member?(type)
     true
   end
 
@@ -52,6 +53,7 @@ class Train
     station.take_train self
   end
 
+  # rubocop:disable Style/GuardClause
   def go_to_next_st
     if @st_number != @route.stations.size - 1
       station.kick_train self
@@ -67,6 +69,7 @@ class Train
       station.take_train self
     end
   end
+  # rubocop:enable Style/GuardClause
 
   def prev_st
     @route.stations[@st_number - 1] unless @st_number.nil?

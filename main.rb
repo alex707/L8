@@ -11,6 +11,7 @@ load './cargo_car.rb'
 
 choise = ''
 
+# rubocop:disable Layout/IndentHeredoc
 menu_text = <<-'MENU_TEXT'
 Choose action:
   1   - Create station
@@ -30,6 +31,7 @@ Choose action:
   15  - Load/Unload car
 (Enter 'stop' for exit)
 MENU_TEXT
+# rubocop:enable Layout/IndentHeredoc
 
 stations  = []
 trains    = []
@@ -180,7 +182,7 @@ while choise != 'stop'
 
               CargoCar.new(vol)
             end
-            train.car_connect(c)
+        train.car_connect(c)
 
         cars << c
         puts 'Car added.'
@@ -378,7 +380,9 @@ while choise != 'stop'
       end
 
     when '20'
-      puts cars.map { |c| "#{c.object_id.to_s.rjust(15, ' ')}  #{c.status}" }
+      puts cars.map do |x|
+        "#{x.object_id.to_s.rjust(15, ' ')}  #{x.status}"
+      end
 
     when '21'
       block = proc { |x| "<< #{x.number} >>" }
@@ -418,4 +422,3 @@ while choise != 'stop'
 
   puts
 end
-

@@ -1,3 +1,4 @@
+# discriprion for passenger wagons
 class PassengerCar < Car
   attr_reader :seats
 

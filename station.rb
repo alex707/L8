@@ -1,9 +1,10 @@
+# stations discription
 class Station
   include InstanceCounter
 
   attr_accessor :name
 
-  @@all = []
+  @@all = [] # rubocop:disable Style/ClassVars
 
   def initialize(name)
     @name   = name
@@ -50,32 +51,34 @@ class Station
     # method return number of 'cargo' or 'pass' trains
     # if type is null, then will return count of all trains on the st
 
-    if @trains.any?
-      # return all
-      if type.nil?
-        @trains.size
+    return if @trains.empty?
 
-      # return by type
-      else
-        @trains.select { |train| train.type == type.to_s }.size
-      end
+    # return all
+    if type.nil?
+      @trains.size
+
+    # return by type
+    else
+      @trains.select { |train| train.type == type.to_s }.size
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def send_train(number = nil)
-    if @trains.any?
-      if number.nil?
-        @trains.first.go_to_next_st
-      else
-        @trains.each do |train|
-          if train.number == number.to_s
-            train.go_to_next_st
-            break
-          end
+    return if @trains.empty?
+
+    if number.nil?
+      @trains.first.go_to_next_st
+    else
+      @trains.each do |train|
+        if train.number == number.to_s
+          train.go_to_next_st
+          break
         end
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def self.all
     @@all
